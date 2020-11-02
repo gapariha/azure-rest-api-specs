@@ -65,6 +65,10 @@
     {
       "name": "WorkloadNetworks",
       "description": ""
+    },
+    {
+      "name": "ComputePolicies",
+      "description": ""
     }
   ],
   "parameters": {
@@ -108,6 +112,30 @@
       "description": "Name of the global reach connection in the private cloud",
       "x-ms-parameter-location": "method"
     },
+    "policyName": {
+      "name": "policyName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Name of the policy",
+      "x-ms-parameter-location": "method"
+    },
+    "drsGroupName": {
+      "name": "drsGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Name of the DRS Group",
+      "x-ms-parameter-location": "method"
+    },
+    "hostName": {
+      "name": "hostName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Host customer address space FQDN",
+      "x-ms-parameter-location": "method"
+    },
     "segmentId": {
       "name": "segmentId",
       "in": "path",
@@ -145,7 +173,7 @@
       "in": "path",
       "required": true,
       "type": "string",
-      "description": "NSX Virtual Machine identifier.",
+      "description": "Virtual Machine identifier",
       "x-ms-parameter-location": "method"
     },
     "gatewayId": {
@@ -2688,7 +2716,834 @@
           }
         }
       }
-    }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/virtualMachines": {
+      "get": {
+        "operationId": "VirtualMachines_List",
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "tags": [
+          "ComputePolicies"
+        ],
+        "summary": "List of virtual machines in a private cloud's cluster",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/privateCloudName"
+          },
+          {
+            "$ref": "#/parameters/clusterName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/VirtualMachinesList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ListClusterVirtualMachines": {
+            "$ref": "./examples/VirtualMachines_List.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/virtualMachines/{virtualMachineId}": {
+      "get": {
+        "operationId": "VirtualMachines_Get",
+        "tags": [
+          "ComputePolicies"
+        ],
+        "summary": "Get a virtual machine by id in a private cloud's cluster",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/privateCloudName"
+          },
+          {
+            "$ref": "#/parameters/clusterName"
+          },
+          {
+            "$ref": "#/parameters/virtualMachineId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/VirtualMachine"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "GetVirtualMachine": {
+            "$ref": "./examples/VirtualMachines_Get.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/hosts": {
+      "get": {
+        "operationId": "Hosts_List",
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "tags": [
+          "ComputePolicies"
+        ],
+        "summary": "List of hosts making up a private cloud's cluster",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/privateCloudName"
+          },
+          {
+            "$ref": "#/parameters/clusterName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/HostsList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ListClusterHosts": {
+            "$ref": "./examples/Hosts_List.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/hosts/{hostName}": {
+      "get": {
+        "operationId": "Hosts_Get",
+        "tags": [
+          "ComputePolicies"
+        ],
+        "summary": "Get a host by name in a private cloud's cluster",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/privateCloudName"
+          },
+          {
+            "$ref": "#/parameters/clusterName"
+          },
+          {
+            "$ref": "#/parameters/hostName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Host"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "GetHost": {
+            "$ref": "./examples/Hosts_Get.json"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "Hosts_Delete",
+        "x-ms-long-running-operation": true,
+        "tags": [
+          "ComputePolicies"
+        ],
+        "summary": "Delete a host by name from a private cloud's cluster",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/privateCloudName"
+          },
+          {
+            "$ref": "#/parameters/clusterName"
+          },
+          {
+            "$ref": "#/parameters/hostName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK. The delete has succeeded"
+          },
+          "202": {
+            "description": "Accepted. The delete will complete asynchronously"
+          },
+          "204": {
+            "description": "No Content. No host to delete"
+          },
+          "default": {
+            "description": "Error response describing why the operation failed",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Hosts_Delete": {
+            "$ref": "./examples/Hosts_Delete.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/drsGroups": {
+      "get": {
+        "operationId": "DRSGroups_List",
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "tags": [
+          "ComputePolicies"
+        ],
+        "summary": "List DRS groups in a private cloud's cluster",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/privateCloudName"
+          },
+          {
+            "$ref": "#/parameters/clusterName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/DRSGroupsList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "DRSGroups_List": {
+            "$ref": "./examples/DRSGroups_List.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/drsGroups/{drsGroupName}": {
+      "get": {
+        "operationId": "DRSGroups_Get",
+        "tags": [
+          "ComputePolicies"
+        ],
+        "summary": "Get a DRS group by name in a private cloud's cluster",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/privateCloudName"
+          },
+          {
+            "$ref": "#/parameters/clusterName"
+          },
+          {
+            "$ref": "#/parameters/drsGroupName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/DRSGroup"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "DRSGroups_Get": {
+            "$ref": "./examples/DRSGroup_Get.json"
+          }
+        }
+      },
+      "put": {
+        "operationId": "DRSGroups_CreateOrUpdate",
+        "x-ms-long-running-operation": true,
+        "tags": [
+        ],
+        "summary": "Create or update a DRS group in a private cloud's cluster",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/privateCloudName"
+          },
+          {
+            "$ref": "#/parameters/clusterName"
+          },
+          {
+            "$ref": "#/parameters/drsGroupName"
+          },
+          {
+            "name": "drsGroup",
+            "description": "A DRS group in the private cloud's cluster",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DRSGroup"
+            }
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/DRSGroup"
+            }
+          },
+          "201": {
+            "description": "accepted operation",
+            "schema": {
+              "$ref": "#/definitions/DRSGroup"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "DRSGroups_CreateOrUpdate": {
+            "$ref": "./examples/DRSGroups_CreateOrUpdate.json"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "DRSGroups_Update",
+        "x-ms-long-running-operation": true,
+        "tags": [
+        ],
+        "summary": "Update a DRS group in a private cloud's cluster",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/privateCloudName"
+          },
+          {
+            "$ref": "#/parameters/clusterName"
+          },
+          {
+            "$ref": "#/parameters/drsGroupName"
+          },
+          {
+            "name": "drsGroupUpdate",
+            "description": "The DRS group properties to be updated",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DRSGroupUpdate"
+            }
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/DRSGroup"
+            }
+          },
+          "201": {
+            "description": "accepted operation",
+            "schema": {
+              "$ref": "#/definitions/DRSGroup"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "DRSGroups_Update": {
+            "$ref": "./examples/DRSGroups_Update.json"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "DRSGroups_Delete",
+        "x-ms-long-running-operation": true,
+        "tags": [
+        ],
+        "summary": "Delete a DRS group from a private cloud's cluster",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/privateCloudName"
+          },
+          {
+            "$ref": "#/parameters/clusterName"
+          },
+          {
+            "$ref": "#/parameters/drsGroupName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK. The delete has succeeded"
+          },
+          "202": {
+            "description": "Accepted. The delete will complete asynchronously"
+          },
+          "204": {
+            "description": "No Content. No DRS group to delete"
+          },
+          "default": {
+            "description": "Error response describing why the operation failed",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "DRSGroups_Delete": {
+            "$ref": "./examples/DRSGroups_Delete.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/policies": {
+      "get": {
+        "operationId": "Policies_List",
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "tags": [
+          "ComputePolicies"
+        ],
+        "summary": "List policies in a private cloud's cluster",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/privateCloudName"
+          },
+          {
+            "$ref": "#/parameters/clusterName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/PolicyList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Policies_List": {
+            "$ref": "./examples/Policies_List.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/policies/{policyName}": {
+      "get": {
+        "operationId": "Policies_Get",
+        "tags": [
+          "ComputePolicies"
+        ],
+        "summary": "Get a policy by name in a private cloud's cluster",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/privateCloudName"
+          },
+          {
+            "$ref": "#/parameters/clusterName"
+          },
+          {
+            "$ref": "#/parameters/policyName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Policies_Get": {
+            "$ref": "./examples/Policies_Get.json"
+          }
+        }
+      },
+      "put": {
+        "operationId": "Policies_CreateOrUpdate",
+        "x-ms-long-running-operation": true,
+        "tags": [
+          "ComputePolicies"
+        ],
+        "summary": "Create or update a policy in a private cloud's cluster",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/privateCloudName"
+          },
+          {
+            "$ref": "#/parameters/clusterName"
+          },
+          {
+            "$ref": "#/parameters/policyName"
+          },
+          {
+            "name": "policy",
+            "description": "A policy in the private cloud's cluster",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            }
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            }
+          },
+          "201": {
+            "description": "accepted operation",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Policies_CreateOrUpdate": {
+            "$ref": "./examples/Policies_CreateOrUpdate.json"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "Policies_Delete",
+        "x-ms-long-running-operation": true,
+        "tags": [
+          "ComputePolicies"
+        ],
+        "summary": "Delete a policy in a private cloud's cluster",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/privateCloudName"
+          },
+          {
+            "$ref": "#/parameters/clusterName"
+          },
+          {
+            "$ref": "#/parameters/policyName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK. The delete has succeeded"
+          },
+          "202": {
+            "description": "Accepted. The delete will complete asynchronously"
+          },
+          "204": {
+            "description": "No Content. No policy to delete"
+          },
+          "default": {
+            "description": "Error response describing why the operation failed",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Policies_Delete": {
+            "$ref": "./examples/Policies_Delete.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/policies/{policyName}/disable": {
+      "post": {
+        "operationId": "Policies_Disable",
+        "x-ms-long-running-operation": true,
+        "tags": [
+          "ComputePolicies"
+        ],
+        "summary": "Disable a policy in a private cloud's cluster",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/privateCloudName"
+          },
+          {
+            "$ref": "#/parameters/clusterName"
+          },
+          {
+            "$ref": "#/parameters/policyName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "201": {
+            "description": "accepted operation",
+            "headers": {
+              "Azure-AsyncOperation": {
+                "description": "Tracking URL for long running operation.",
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Policies_Disable": {
+            "$ref": "./examples/Policies_Disable.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/policies/{policyName}/enable": {
+      "post": {
+        "operationId": "Policies_Enable",
+        "x-ms-long-running-operation": true,
+        "tags": [
+          "ComputePolicies"
+        ],
+        "summary": "Enable a policy in a private cloud's cluster",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/privateCloudName"
+          },
+          {
+            "$ref": "#/parameters/clusterName"
+          },
+          {
+            "$ref": "#/parameters/policyName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "201": {
+            "description": "accepted operation",
+            "headers": {
+              "Azure-AsyncOperation": {
+                "description": "Tracking URL for long running operation.",
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Policies_Enable": {
+            "$ref": "./examples/Policies_Enable.json"
+          }
+        }
+      }
+    }        
   },
   "definitions": {
     "Trial": {
@@ -4178,6 +5033,354 @@
           "readOnly": true,
           "items": {
             "$ref": "#/definitions/WorkloadNetworkGateway"
+          }
+        },
+        "nextLink": {
+          "description": "URL to get the next page if any",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "VirtualMachineProperties": {
+      "description": "Virtual Machine Properties",
+      "properties": {
+        "displayName": {
+          "description": "Display name of the VM.",
+          "type": "string",
+          "readOnly": true
+        },
+        "moRefId": {
+          "description": "Virtual machine managed object reference id",
+          "type": "integer",
+          "readOnly": true
+        }
+      }
+    },
+    "VirtualMachine": {
+      "description": "Virtual Machine",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "Virtual machine properties.",
+          "$ref": "#/definitions/VirtualMachineProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "VirtualMachinesList": {
+      "description": "A list of Virtual Machines",
+      "properties": {
+        "value": {
+          "description": "The items to be displayed on the page",
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/VirtualMachine"
+          }
+        },
+        "nextLink": {
+          "description": "URL to get the next page if any",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "HostProperties": {
+      "description": "ESXi host Properties",
+      "properties": {
+        "displayName": {
+          "description": "Display name of the host",
+          "type": "string",
+          "readOnly": true
+        },
+        "moRefId": {
+          "description": "ESXi host managed object reference id",
+          "type": "integer",
+          "readOnly": true
+        }
+      }
+    },
+    "Host": {
+      "description": "ESXi host",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "ESXi host properties.",
+          "$ref": "#/definitions/HostProperties",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "HostsList": {
+      "description": "A list of ESXi hosts",
+      "properties": {
+        "value": {
+          "description": "The items to be displayed on the page",
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/Host"
+          }
+        },
+        "nextLink": {
+          "description": "URL to get the next page if any",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "DRSGroup": {
+      "description": "Abstract representation of vCenter DRS group types",
+      "discriminator": "drsGroupType",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TrackedResource"
+        }
+      ],
+      "properties": {
+        "drsGroupType": {
+          "description": "Type of DRS group: VM or Host",
+          "type": "string",
+          "enum": [
+            "VM",
+            "Host"
+          ],
+          "x-ms-enum": {
+            "name": "DrsGroupTypeEnum",
+            "modelAsString": true
+          }
+        },
+        "displayName": {
+          "description": "Display name of the DRS Group entity",
+          "type": "string"
+        },
+        "provisioningState": {
+          "description": "The provisioning state",
+          "type": "string",
+          "readOnly": true,
+          "enum": [
+            "Succeeded",
+            "Failed",
+            "Building",
+            "Deleting",
+            "Updating"
+          ],
+          "x-ms-enum": {
+            "name": "DrsGroupProvisioningState",
+            "modelAsString": true
+          }
+        }
+      },
+      "required": [
+        "drsGroupType"
+      ]
+    },
+    "DRSVmGroup": {
+      "description": "DRS VM Group",
+      "x-ms-discriminator-value": "VM",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DRSGroup"
+        }
+      ],
+      "properties": {
+        "value": {
+          "description": "The list of vCenter VMs",
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/VirtualMachine"
+          }
+        }  
+      }  
+    },
+    "DRSHostGroup": {
+      "description": "DRS Host Group",
+      "x-ms-discriminator-value": "Host",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DRSGroup"
+        }
+      ],
+      "properties": {
+        "value": {
+          "description": "The list of ESXi hosts",
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/Host"
+          }
+        }  
+      }  
+    },
+    "DRSGroupsList": {
+      "description": "A list of DRS Groups",
+      "properties": {
+        "value": {
+          "description": "The items on the page",
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/DRSGroup"
+          }
+        },
+        "nextLink": {
+          "description": "URL to get the next page if any",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "Policy": {
+      "description": "Abstract representation of vCenter DRS rules",
+      "discriminator": "drsRuleType",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TrackedResource"
+        }
+      ],
+      "properties": {
+        "drsRuleType": {
+          "description": "Type of DRS rule: VmVm, VmHost or VmOverride",
+          "type": "string",
+          "enum": [
+            "PolicyDRSVmVm",
+            "PolicyDRSVmHost",
+            "PolicyDRSVmOverride"
+          ],
+          "x-ms-enum": {
+            "name": "DrsRuleTypeEnum",
+            "modelAsString": true
+          }
+        },
+        "drsRuleState": { 
+          "description": "The current state of policy", 
+          "type": "string", 
+          "readOnly": true, 
+          "enum": [
+            "Enabled", 
+            "Disabled" 
+          ], 
+          "x-ms-enum": { 
+          "name": "drsRuleState", 
+          "modelAsString": true 
+          } 
+        }, 
+        "displayName": {
+          "description": "Display name of the DRS rule entity",
+          "type": "string"
+        },
+        "provisioningState": {
+          "description": "The provisioning state",
+          "type": "string",
+          "readOnly": true,
+          "enum": [
+            "Succeeded",
+            "Failed",
+            "Building",
+            "Deleting",
+            "Updating"
+          ],
+          "x-ms-enum": {
+            "name": "DrsRuleProvisioningState",
+            "modelAsString": true
+          }
+        }
+      },
+      "required": [
+        "drsRuleType"
+      ]
+    },
+    "PolicyDRSVmVm": {
+      "description": "DRS Vm-Vm rule",
+      "x-ms-discriminator-value": "PolicyDRSVmVm",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Policy"
+        }
+      ],
+      "properties": {
+        "group": {
+          "description": "The VM group to be used by the policy",
+          "$ref": "#/definitions/DRSGroup"
+        },
+        "affinityType": {
+          "description": "The DRS policy affinity type",
+          "type": "string",
+          "enum": [
+            "Affinity",
+            "AntiAffinity"
+          ],
+          "x-ms-enum": {
+            "name": "DrsRuleAffinityType",
+            "modelAsString": true
+          }
+        }  
+      }  
+    },
+    "PolicyDRSVmHost": {
+      "description": "DRS Vm-Host rule",
+      "x-ms-discriminator-value": "PolicyDRSVmHost",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Policy"
+        }
+      ],
+      "properties": {
+        "groups": {
+          "description": "The VM & Host groups to be used by the policy",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DRSGroup"
+          }
+        },
+        "affinityType": {
+          "description": "The DRS policy affinity type",
+          "type": "string",
+          "enum": [
+            "Affinity",
+            "AntiAffinity"
+          ],
+          "x-ms-enum": {
+            "name": "DrsRuleAffinityType",
+            "modelAsString": true
+          }
+        }    
+      }  
+    },
+    "PolicyDRSVmOverride": {
+      "description": "DRS VM Override rule",
+      "x-ms-discriminator-value": "PolicyDRSVmOverride",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Policy"
+        }
+      ],
+      "properties": {
+        "group": {
+          "description": "The VM group to be used by the policy",
+          "$ref": "#/definitions/DRSGroup"
+        }
+      }  
+    },
+    "PoliciesList": {
+      "description": "A list of DRS rules",
+      "properties": {
+        "value": {
+          "description": "The items on the page",
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/Policy"
           }
         },
         "nextLink": {
