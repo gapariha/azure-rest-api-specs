@@ -1,0 +1,26 @@
+{
+  "parameters": {
+    "api-version": "2020-07-17",
+    "subscriptionId": "{subscription-id}",
+    "resourceGroupName": "group1",
+    "privateCloudName": "cloud1",
+    "clusterName": "cluster1"
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "value": [
+          {
+            "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm1",
+            "name": "vm1",
+            "type": "Microsoft.AVS/privateClouds/clusters/virtualMachine",
+            "properties": {
+              "displayName": "vm1",
+              "moRefId": "vm-209"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

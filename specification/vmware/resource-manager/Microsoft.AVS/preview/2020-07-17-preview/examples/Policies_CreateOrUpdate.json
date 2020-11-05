@@ -1,0 +1,53 @@
+{
+  "parameters": {
+    "api-version": "2020-07-17",
+    "subscriptionId": "{subscription-id}",
+    "resourceGroupName": "group1",
+    "privateCloudName": "cloud1",
+    "clusterName": "cluster1",
+    "policyName": "policy1",
+    "policy": {
+      "properties": {
+        "drsRuleType": "PolicyDRSVmVm",
+        "group": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/drsGroups/drsgroup1",
+        "affinityType": "AntiAffinity"
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/policies/policy1",
+        "name": "policy1",
+        "type": "Microsoft.AVS/privateClouds/clusters/policy",
+        "location": "eastus",
+        "tag": "",
+        "properties": {
+          "displayName": "policy1",
+          "drsRuleType": "PolicyDRSVmVm",
+          "drsRuleState": "Enabled",
+          "provisioningState": "Succeeded",
+          "group": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/drsGroups/drsgroup1",
+          "affinityType": "AntiAffinity"
+        }
+      }
+    },
+    "201": {
+      "body": {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/policies/policy1",
+        "name": "policy1",
+        "type": "Microsoft.AVS/privateClouds/clusters/policy",
+        "location": "eastus",
+        "tag": "",
+        "properties": {
+          "displayName": "policy1",
+          "drsRuleType": "PolicyDRSVmVm",
+          "drsRuleState": "Enabled",
+          "provisioningState": "Updating",
+          "group": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/drsGroups/drsgroup1",
+          "affinityType": "AntiAffinity"
+        }
+      }
+    }
+  }
+}

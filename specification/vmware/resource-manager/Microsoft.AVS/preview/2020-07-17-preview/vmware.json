@@ -3050,7 +3050,7 @@
         },
         "x-ms-examples": {
           "DRSGroups_Get": {
-            "$ref": "./examples/DRSGroup_Get.json"
+            "$ref": "./examples/DRSGroups_Get.json"
           }
         }
       },
@@ -3058,6 +3058,7 @@
         "operationId": "DRSGroups_CreateOrUpdate",
         "x-ms-long-running-operation": true,
         "tags": [
+          "ComputePolicies"
         ],
         "summary": "Create or update a DRS group in a private cloud's cluster",
         "parameters": [
@@ -3119,6 +3120,7 @@
         "operationId": "DRSGroups_Update",
         "x-ms-long-running-operation": true,
         "tags": [
+          "ComputePolicies"
         ],
         "summary": "Update a DRS group in a private cloud's cluster",
         "parameters": [
@@ -3138,12 +3140,12 @@
             "$ref": "#/parameters/drsGroupName"
           },
           {
-            "name": "drsGroupUpdate",
+            "name": "drsGroup",
             "description": "The DRS group properties to be updated",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/DRSGroupUpdate"
+              "$ref": "#/definitions/DRSGroup"
             }
           },
           {
@@ -3180,6 +3182,7 @@
         "operationId": "DRSGroups_Delete",
         "x-ms-long-running-operation": true,
         "tags": [
+          "ComputePolicies"
         ],
         "summary": "Delete a DRS group from a private cloud's cluster",
         "parameters": [
@@ -3257,7 +3260,7 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/PolicyList"
+              "$ref": "#/definitions/PoliciesList"
             }
           },
           "default": {
@@ -5052,7 +5055,7 @@
         },
         "moRefId": {
           "description": "Virtual machine managed object reference id",
-          "type": "integer",
+          "type": "string",
           "readOnly": true
         }
       }
@@ -5100,7 +5103,7 @@
         },
         "moRefId": {
           "description": "ESXi host managed object reference id",
-          "type": "integer",
+          "type": "string",
           "readOnly": true
         }
       }
@@ -5138,14 +5141,9 @@
         }
       }
     },
-    "DRSGroup": {
+    "DRSGroupEntity": {
       "description": "Abstract representation of vCenter DRS group types",
       "discriminator": "drsGroupType",
-      "allOf": [
-        {
-          "$ref": "#/definitions/TrackedResource"
-        }
-      ],
       "properties": {
         "drsGroupType": {
           "description": "Type of DRS group: VM or Host",
@@ -5170,7 +5168,7 @@
           "enum": [
             "Succeeded",
             "Failed",
-            "Building",
+            "Accepted",
             "Deleting",
             "Updating"
           ],
@@ -5189,7 +5187,7 @@
       "x-ms-discriminator-value": "VM",
       "allOf": [
         {
-          "$ref": "#/definitions/DRSGroup"
+          "$ref": "#/definitions/DRSGroupEntity"
         }
       ],
       "properties": {
@@ -5201,14 +5199,17 @@
             "$ref": "#/definitions/VirtualMachine"
           }
         }  
-      }  
+      },
+      "required": [
+        "value"
+      ]  
     },
     "DRSHostGroup": {
       "description": "DRS Host Group",
       "x-ms-discriminator-value": "Host",
       "allOf": [
         {
-          "$ref": "#/definitions/DRSGroup"
+          "$ref": "#/definitions/DRSGroupEntity"
         }
       ],
       "properties": {
@@ -5220,7 +5221,25 @@
             "$ref": "#/definitions/Host"
           }
         }  
-      }  
+      },
+      "required": [
+        "value"
+      ]   
+    },
+    "DRSGroup": {
+      "description": "A DRS group",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TrackedResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "DRS Group properties.",
+          "$ref": "#/definitions/DRSGroupEntity",
+          "x-ms-client-flatten": true
+        }
+      }
     },
     "DRSGroupsList": {
       "description": "A list of DRS Groups",
@@ -5240,14 +5259,9 @@
         }
       }
     },
-    "Policy": {
+    "PolicyEntity": {
       "description": "Abstract representation of vCenter DRS rules",
       "discriminator": "drsRuleType",
-      "allOf": [
-        {
-          "$ref": "#/definitions/TrackedResource"
-        }
-      ],
       "properties": {
         "drsRuleType": {
           "description": "Type of DRS rule: VmVm, VmHost or VmOverride",
@@ -5305,13 +5319,13 @@
       "x-ms-discriminator-value": "PolicyDRSVmVm",
       "allOf": [
         {
-          "$ref": "#/definitions/Policy"
+          "$ref": "#/definitions/PolicyEntity"
         }
       ],
       "properties": {
         "group": {
           "description": "The VM group to be used by the policy",
-          "$ref": "#/definitions/DRSGroup"
+          "type": "string"
         },
         "affinityType": {
           "description": "The DRS policy affinity type",
@@ -5325,14 +5339,18 @@
             "modelAsString": true
           }
         }  
-      }  
+      },
+      "required": [
+        "group",
+        "affinityType"
+      ]    
     },
     "PolicyDRSVmHost": {
       "description": "DRS Vm-Host rule",
       "x-ms-discriminator-value": "PolicyDRSVmHost",
       "allOf": [
         {
-          "$ref": "#/definitions/Policy"
+          "$ref": "#/definitions/PolicyEntity"
         }
       ],
       "properties": {
@@ -5340,7 +5358,7 @@
           "description": "The VM & Host groups to be used by the policy",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/DRSGroup"
+            "type": "string"
           }
         },
         "affinityType": {
@@ -5355,22 +5373,44 @@
             "modelAsString": true
           }
         }    
-      }  
+      },
+      "required": [
+        "groups",
+        "affinityType"
+      ]    
     },
     "PolicyDRSVmOverride": {
       "description": "DRS VM Override rule",
       "x-ms-discriminator-value": "PolicyDRSVmOverride",
       "allOf": [
         {
-          "$ref": "#/definitions/Policy"
+          "$ref": "#/definitions/PolicyEntity"
         }
       ],
       "properties": {
         "group": {
           "description": "The VM group to be used by the policy",
-          "$ref": "#/definitions/DRSGroup"
+          "type": "string"
         }
-      }  
+      },
+      "required": [
+        "group"
+      ]    
+    },
+    "Policy": {
+      "description": "A DRS rule",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TrackedResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "DRS Rule properties.",
+          "$ref": "#/definitions/PolicyEntity",
+          "x-ms-client-flatten": true
+        }
+      }
     },
     "PoliciesList": {
       "description": "A list of DRS rules",
